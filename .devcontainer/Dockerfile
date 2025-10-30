@@ -23,7 +23,8 @@ RUN pip3 install --no-cache-dir --break-system-packages \
     notebook \
     ipykernel \
     polars>=1.0.0 \
-    radian
+    radian \
+    stemgraphic
 
 # Instalar pacotes R necessários
 RUN R -e "install.packages(c('IRkernel', 'languageserver'), repos='https://cloud.r-project.org', Ncpus=2)"
