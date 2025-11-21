@@ -20,19 +20,6 @@ RUN apt-get update && apt-get install -y \
     dirmngr \
     && rm -rf /var/lib/apt/lists/*
 
-# Adicionar repositório oficial do ClickHouse
-RUN curl -fsSL https://packages.clickhouse.com/CLICKHOUSE-KEY.GPG | gpg --dearmor -o /usr/share/keyrings/clickhouse-archive-keyring.gpg && \
-    echo "deb [signed-by=/usr/share/keyrings/clickhouse-archive-keyring.gpg] https://packages.clickhouse.com/deb stable main" | tee /etc/apt/sources.list.d/clickhouse.list
-
-# Instalar clickhouse-server e clickhouse-client
-RUN apt-get update && apt-get install -y clickhouse-server clickhouse-client && rm -rf /var/lib/apt/lists/*
-
-# Expor portas padrão do ClickHouse
-EXPOSE 8123 9000
-
-# Comando padrão para iniciar o servidor
-CMD ["clickhouse-server", "--config-file=/etc/clickhouse-server/config.xml"]
-
 # Criar link simbólico para python
 RUN ln -sf /usr/bin/python3 /usr/local/bin/python
 
