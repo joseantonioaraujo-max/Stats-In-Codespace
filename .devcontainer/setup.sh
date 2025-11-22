@@ -82,4 +82,20 @@ if (!ok) {
 }
 RS
 
+# installing clickhouse 
+echo "[install] clickhouse..."
+# Se não existir o binário do clickhouse, instala-lo
+if ! command -v clickhouse >/dev/null 2>&1; then
+  curl https://clickhouse.com/ | sh
+  # Criar arquivo com a senha ANTES da instalação
+  echo '<clickhouse><users><default><password remove='1' /><password_sha256_hex>db1ae7a3d43f1ec8701c395a640f3daac58d9032b7955c19704da1d16359a82e</password_sha256_hex></default></users></clickhouse>' | \
+  sudo tee /etc/clickhouse-server/users.d/default-password.xml
+  sudo DEBIAN_FRONTEND=noninteractive ./clickhouse install
+else
+  echo "[install] clickhouse já está instalado."
+fi
+# Iniciar o clickhouse
+echo "[install] Starting clickhouse server..."
+sudo clickhouse start
+
 echo "[setup] Done."
